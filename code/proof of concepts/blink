@@ -1,0 +1,101 @@
+#include "SerialCommand.h"  //staat seriële communicatie toe
+#include "EEPROMAnything.h" //geheugen dat onthoud zelfs na spanningsloos stellen: we stellen alle op te slagen variabelen in 1 structuur waardoot we maar op 1 adres moeten gaan halen.
+
+#define SerialPort Serial
+#define Baudrate 115200
+
+SerialCommand sCmd(SerialPort);
+//gebruikte globale parameters
+bool debug;                   //voor aan/uitzetten van loop if(debug)
+unsigned long previous;       //voor gebruik van timer
+unsigned long calculationTime; //voor te zien hoelang hij erover doet om een cyclus te berekenen
+
+struct param_t //hierdoor moeten we maar 1 adres onthouden in het EEPROM geheugen waar we al onze variabelen plaatsen
+{
+  unsigned long cycleTime;
+  int getal;
+} params;
+
+void setup()
+{
+  SerialPort.begin(Baudrate); //zet baudrate serialport
+  pinMode(13, OUTPUT);
+
+  sCmd.addCommand("set", onSet); //als een commando begint met "set" kijken we in de "void onSet()"
+  sCmd.addCommand("debug", onDebug); //als een commando begint met "debug" kijken we in de "void onDebug()"
+  sCmd.setDefaultHandler(onUnknownCommand); //bij alle commandos dat ongekend zijn (altijd enkel eerste deel)
+
+  EEPROM_readAnything(0, params);//slaat alles op van "params" in het EEPROM geheugen op adres 1
+
+  SerialPort.println("ready"); //bevestiging einde opstart programma
+}
+
+void loop()
+{
+  sCmd.readSerial(); //bekijkt serial of er commandos zijn doorgegeven
+ 
+  unsigned long current = micros(); //eigenlijk een time functie, alles hierbinnen wordt 1 maal uitgevoerd in de tijd (uitgedrukt in microseconden
+  if (current - previous >= params.cycleTime) //vergelijke met de waarde cycleTime uit het EEPROM geheugen
+  {
+    previous = current;
+
+    //cyclisch programma met ingestelde tijd komt hieronder
+    
+    digitalWrite(13, !digitalRead(13)); //zorgt voor een knipperlicht dat cyclisch gestuurd is 
+    
+    if (debug) Serial.println("loop still running"); //wanneer debug aangezt wordt zal deze tekst cyclisch verschijnen
+  }
+
+  unsigned long difference = micros() - current;
+  if (difference > calculationTime) calculationTime = difference; //bekijkt hoelang het duurt om een cyclus te doorlopen en slaagt grootste op
+}
+
+void onUnknownCommand(char *command) // bij ongekend commando
+{
+  SerialPort.print("unknown command: \""); //print in te stellen lijn
+  SerialPort.print(command); //print het ongekende commando
+  SerialPort.println("\""); //eindigd de lijn
+}
+
+void onSet() //bij commando set
+{
+  char* param = sCmd.next(); //eerste na set
+  char* value = sCmd.next(); //2de na set
+
+  if (strcmp(param, "debug") == 0) //als het eerste na set "debug" is
+  {
+    if (strcmp(value, "on") == 0) debug = true; //aanzetten van debug
+    else if (strcmp(value, "off") == 0) debug = false; //afzetten van debug
+  }
+  else if (strcmp(param, "cycle") == 0) //als het eerste erna "cycle" is
+  {
+    params.cycleTime = atol(value);  // steekt de nieuwe cyclustijd in het EEPROM
+    SerialPort.print("Cycle time: \""); //print in te stellen lijn
+    SerialPort.print(atol(value)); //print de ingestelde cyclustijd
+    SerialPort.println(" microseconden\""); //eindigd de lijn
+  }
+  else if (strcmp(param, "getal") == 0) //als het eerste erna "getal" is
+  {
+    params.getal = atol(value);  // steekt de nieuwe cyclustijd in het EEPROM
+    SerialPort.print("getal: \""); //print in te stellen lijn
+    SerialPort.print(atol(value)); //print de ingestelde cyclustijd
+    SerialPort.println("\""); //eindigd de lijn
+  }
+
+  EEPROM_writeAnything(0, params); //schrijft het weg naar het EEPROM
+}
+
+void onDebug() //gaat alle ingestelde waarde weergeven
+{
+  SerialPort.print("cycle time: "); 
+  SerialPort.println(params.cycleTime);
+  
+  /* parameters weergeven met behulp van het debug commando doe je hier ... */
+  
+  SerialPort.print("calculation time: ");
+  SerialPort.println(calculationTime);
+  calculationTime = 0;
+
+  SerialPort.print("getal: ");
+  SerialPort.println(params.getal);
+}
