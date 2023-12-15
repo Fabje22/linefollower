@@ -13,6 +13,6 @@
 |         8|   breadbord 400 punten| breadbord           |  recup         | € 0              |   1   |  € 0       |
 |         9|   Arduino uno | microcontroller          |  recup         | € 0              |   1   |  € 0       |
 |         10|  40 Male-Female |   kabels      |  Nieuw         | € 1.95              |   1   |  € 1.95      |
-|         11|  2-weg batterijhouder |          |  batterijhouder en omvormer         | € 14.00              |   1   |  € 14.00     |
-|         12|  plaat| plaat       | Nieuw        | € 14.00              |   1   |  € 14.00     |
+|         11|  2-weg batterijhouder |    batterijhouder en omvormer       | Nieuw         | € 14.00              |   1   |  € 14.00     |
+|         12|  plaat| plaat       | recup        | € 14.00              |   1   |  € 14.00     |
 
