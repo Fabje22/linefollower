@@ -10,5 +10,9 @@
 |         5|   Pololu Wheel 40x7mm Pair Black | wielen         |  Nieuw         | € 7.25              |   1x2  |  € 7.25       |
 |         6|   HC-05 Bluetooth module met adapter | bluetooth module           |  Nieuw         | € 12.00              |   1   |  € 12.00       |
 |         7|   Drukknop start/stop | drukknop           |  recup         | € 0              |   1   |  € 0       |
-|         7|   Drukknop start/stop | drukknop           |  recup         | € 0              |   1   |  € 0       |
-|         7|   Drukknop start/stop | drukknop           |  recup         | € 0              |   1   |  € 0       |
+|         8|   breadbord 400 punten| breadbord           |  recup         | € 0              |   1   |  € 0       |
+|         9|   Arduino uno | microcontroller          |  recup         | € 0              |   1   |  € 0       |
+|         10|  40 Male-Female | kabels         |  Nieuw         | € 1.95              |   1   |  € 1.95      |
+|         11|  2-weg batterijhouder | kabels         |  batterijhouder en omvormer         | € 14.00              |   1   |  € 14.00     |
+|         12|  | plaat       |  batterijhouder en omvormer         | € 14.00              |   1   |  € 14.00     |
+
