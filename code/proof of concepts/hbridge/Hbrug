@@ -1,0 +1,67 @@
+*const int motor1PWM = 9;   // PWM input for Motor 1
+const int motor1IN1 = 8;   // Input 1 for Motor 1
+const int motor1IN2 = 7;   // Input 2 for Motor 1
+
+const int motor2PWM = 5;   // PWM input for Motor 2
+const int motor2IN1 = 4;   // Input 1 for Motor 2
+const int motor2IN2 = 3;   // Input 2 for Motor 2
+
+void setup() {
+  // Set motor control pins as outputs
+  pinMode(motor1PWM, OUTPUT);
+  pinMode(motor1IN1, OUTPUT);
+  pinMode(motor1IN2, OUTPUT);
+
+  pinMode(motor2PWM, OUTPUT);
+  pinMode(motor2IN1, OUTPUT);
+  pinMode(motor2IN2, OUTPUT);
+}
+
+void loop() {
+  // Move Motor 1 forward
+
+  
+  motorForward(motor1PWM, motor1IN1, motor1IN2);
+
+  // Move Motor 2 forward
+  motorForward(motor2PWM, motor2IN1, motor2IN2);
+
+  delay(2000);  // Move forward for 2 seconds
+
+  // Stop both motors
+  motorStop(motor1IN1, motor1IN2);
+  motorStop(motor2IN1, motor2IN2);
+
+  delay(1000);  // Pause for 1 second
+
+  // Move Motor 1 backward
+  motorBackward(motor1PWM, motor1IN1, motor1IN2);
+
+  // Move Motor 2 backward
+  motorBackward(motor2PWM, motor2IN1, motor2IN2);
+
+  delay(2000);  // Move backward for 2 seconds
+
+  // Stop both motors
+  motorStop(motor1IN1, motor1IN2);
+  motorStop(motor2IN1, motor2IN2);
+
+  delay(1000);  // Pause for 1 second
+}
+
+void motorForward(int pwm, int in1, int in2) {
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  analogWrite(pwm, 255);  // Full speed
+}
+
+void motorBackward(int pwm, int in1, int in2) {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  analogWrite(pwm, 255);  // Full speed
+}
+
+void motorStop(int in1, int in2) {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+}
