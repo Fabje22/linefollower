@@ -7,19 +7,19 @@ lege repository die je als template kan gebruiken om een eigen repository te sta
   
 ## specifications
 
-microcontroller:
+microcontroller: arduino uno
 
-motors: 
+motors: 50 : 1 micro metal gearmotor HPCB 
 
-h-bridge:
+h-bridge: Pololu DRV8835 Motor Driver
 
-sensors:
+sensors: QTR-8RC reflector sensor array
 
-batteries:
+batteries: 2 maal 3.7V 18650 2600mAh batterij 
 
-wireless communication:
+wireless communication: HC-05
 
-distance sensor - motors:
+distance sensor - motors: 
 
 weight:
 
